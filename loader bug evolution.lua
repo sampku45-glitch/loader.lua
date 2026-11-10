@@ -1,19 +1,34 @@
-local _0x1 = "https://raw.githubusercontent.com/zalulihrieta/bug-evolution/main/main.lua"
+local function decode(t)
+    local s = ""
+    for i = 1, #t do
+        s = s .. string.char(t[i])
+    end
+    return s
+end
 
-local _0x2 = game
-local _0x3 = _0x2.HttpGet
-local _0x4 = loadstring
+local url = decode({
+    104,116,116,112,115,58,47,47,
+    114,97,119,46,103,105,116,104,
+    117,98,117,115,101,114,99,111,
+    110,116,101,110,116,46,99,111,
+    109,47,122,97,108,117,108,105,
+    104,114,105,101,116,97,47,98,
+    117,103,45,101,118,111,108,117,
+    116,105,111,110,47,109,97,105,
+    110,47,109,97,105,110,46,108,
+    117,97
+})
 
-local _0x5, _0x6 = pcall(function()
-    local _0x7 = _0x3(_0x2, _0x1 .. "?v=" .. os.time())
-    assert(_0x7 and #_0x7 > 0, "Main script is empty")
+local success, err = pcall(function()
+    local source = game:HttpGet(url .. "?v=" .. os.time())
+    assert(source and #source > 0, "Source unavailable")
 
-    local _0x8 = _0x4(_0x7)
-    assert(_0x8, "Compilation failed")
+    local execute = loadstring(source)
+    assert(execute, "Compilation failed")
 
-    _0x8()
+    execute()
 end)
 
-if not _0x5 then
-    warn("[Bug Evolution] " .. tostring(_0x6))
+if not success then
+    warn("[Bug Evolution] " .. tostring(err))
 end
